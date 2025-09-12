@@ -21,7 +21,6 @@ export default function QuizPage() {
   const [quizData, setQuizData] = useState<Partial<QuizSubmission>>({
     timestamp: new Date()
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showResumesBanner, setShowResumesBanner] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -159,7 +158,6 @@ export default function QuizPage() {
       timestamp: new Date()
     };
 
-    setIsSubmitting(true);
     setCurrentStep('submitting');
     setError(null);
 
@@ -221,7 +219,7 @@ export default function QuizPage() {
         }
       }, 0);
     } finally {
-      setIsSubmitting(false);
+      // Submission complete - state managed by success/error handlers
     }
   };
 

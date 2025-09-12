@@ -2,7 +2,7 @@
 import { QuizSubmission, Section1Response, Section2Response } from './types';
 import { logger } from './logger';
 
-export type QuizStep = 'userInfo' | 'section1' | 'section2' | 'complete';
+export type QuizStep = 'userInfo' | 'section1' | 'section2' | 'complete' | 'submitting';
 
 export interface StoredQuizData {
   version: string;
