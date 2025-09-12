@@ -128,7 +128,7 @@ export default function QuizSection1({ onComplete, onBack }: QuizSection1Props) 
         <div className="p-6">
           <div className="mb-6">
             <p className="text-gray-600 text-sm mb-4">
-              For each statement, select <strong>True</strong> if it describes you or <strong>False</strong> if it doesn't.
+              For each statement, select <strong>True</strong> if it describes you or <strong>False</strong> if it doesn&apos;t.
               Answer honestly based on your natural preferences.
             </p>
           </div>
