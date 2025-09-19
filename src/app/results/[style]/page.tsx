@@ -27,14 +27,14 @@ export default function ResultsPage({ params }: ResultsPageProps) {
               </svg>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              🔥 You did it! Your StyleFinder Assessment is complete. 🔥
+              You did it! Your StyleFinder Assessment is complete.
             </h1>
             
             <div className="max-w-3xl mx-auto text-lg leading-relaxed text-gray-700 space-y-4">
-              <p>Your results are in motion—now the magic begins. ✨</p>
+              <p>Your results are in motion—now the magic begins.</p>
               <p>A StyleFinder Coach will be reaching out to you personally to reveal your unique style code and show you how to unlock confidence, visibility, and power like never before.</p>
-              <p>This isn't just about clothes—it's about <strong>YOU</strong> stepping into your next chapter with boldness and ease. 💃</p>
-              <p>Stay tuned. Your transformation is on its way. 🚀</p>
+              <p>This is not just about clothes—it is about <strong>YOU</strong> stepping into your next chapter with boldness and ease.</p>
+              <p>Stay tuned. Your transformation is on its way.</p>
               <p className="text-xl font-medium text-rose-600 mt-6">
                 XO<br />
                 Mary Michele
@@ -44,7 +44,7 @@ export default function ResultsPage({ params }: ResultsPageProps) {
         </div>
 
         <div className="mt-16 text-center text-gray-400 text-sm">
-          <p>StyleFinder ID® Personal Style Assessment System</p>
+          <p>StyleFinder ID Personal Style Assessment System</p>
           <p className="mt-1">Thank you for discovering your unique style identity!</p>
         </div>
       </div>
