@@ -69,7 +69,7 @@ export default function UserInfoForm({ onSubmit, initialValues }: UserInfoFormPr
               type="text"
               id="userName"
               placeholder="Enter your full name"
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors text-black ${
                 errors.userName 
                   ? 'border-red-300 bg-red-50' 
                   : 'border-gray-300 hover:border-gray-400'
@@ -96,7 +96,7 @@ export default function UserInfoForm({ onSubmit, initialValues }: UserInfoFormPr
               type="email"
               id="userEmail"
               placeholder="Enter your email address"
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors text-black ${
                 errors.userEmail 
                   ? 'border-red-300 bg-red-50' 
                   : 'border-gray-300 hover:border-gray-400'
@@ -111,9 +111,6 @@ export default function UserInfoForm({ onSubmit, initialValues }: UserInfoFormPr
                 {errors.userEmail.message}
               </p>
             )}
-            <p className="mt-1 text-xs text-gray-500">
-              Your results will be emailed to your style coach at this address
-            </p>
           </div>
 
           {/* Privacy Notice */}

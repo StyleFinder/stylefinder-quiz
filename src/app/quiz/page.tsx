@@ -8,8 +8,6 @@ import { logger } from '@/lib/logger';
 import UserInfoForm from '@/components/UserInfoForm';
 import QuizSection1 from '@/components/QuizSection1';
 import QuizSection2 from '@/components/QuizSection2';
-import ProgressBar from '@/components/ProgressBar';
-import ResumeQuizBanner from '@/components/ResumeQuizBanner';
 import AutoSaveIndicator from '@/components/AutoSaveIndicator';
 import { QuizSkeleton } from '@/components/SkeletonLoader';
 
@@ -22,7 +20,6 @@ export default function QuizPage() {
     timestamp: new Date()
   });
   const [error, setError] = useState<string | null>(null);
-  const [showResumesBanner, setShowResumesBanner] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize component and check for saved data
@@ -32,13 +29,7 @@ export default function QuizPage() {
         // Clean up any old or expired data
         QuizStorage.cleanup();
         
-        // Check for saved progress
-        if (storage.hasSavedProgress()) {
-          setShowResumesBanner(true);
-          logger.info('quiz', 'Found saved progress, showing resume banner');
-        } else {
-          logger.info('quiz', 'No saved progress found, starting fresh');
-        }
+        logger.info('quiz', 'Quiz initialized');
       } catch (error: any) {
         logger.error('quiz', 'Error initializing quiz', { error: error.message });
       } finally {
@@ -69,41 +60,6 @@ export default function QuizPage() {
     storage.autoSave(saveData, 1000); // Debounce saves by 1 second
   }, [quizData, currentStep, isInitialized, storage]);
 
-  const handleResumeQuiz = () => {
-    try {
-      const savedData = storage.load();
-      if (savedData) {
-        const submission = QuizStorage.toQuizSubmission(savedData);
-        
-        // Restore quiz data
-        setQuizData({
-          ...submission,
-          timestamp: new Date() // Update timestamp
-        });
-        
-        // Restore current step
-        setCurrentStep(savedData.quizProgress.currentStep);
-        
-        logger.info('quiz', 'Successfully resumed quiz from saved data', {
-          step: savedData.quizProgress.currentStep,
-          hasUserData: !!(submission.userName && submission.userEmail)
-        });
-      }
-    } catch (error: any) {
-      logger.error('quiz', 'Error resuming quiz', { error: error.message });
-      setError('Failed to load saved progress. Starting fresh.');
-    }
-    
-    setShowResumesBanner(false);
-  };
-
-  const handleStartFresh = () => {
-    storage.clear();
-    setQuizData({ timestamp: new Date() });
-    setCurrentStep('userInfo');
-    setShowResumesBanner(false);
-    logger.info('quiz', 'Started fresh quiz after clearing saved data');
-  };
 
   const handleUserInfoSubmit = (userInfo: { userName: string; userEmail: string }) => {
     const updatedData = { ...quizData, ...userInfo };
@@ -223,29 +179,6 @@ export default function QuizPage() {
     }
   };
 
-  const getProgressPercentage = () => {
-    switch (currentStep) {
-      case 'userInfo': return 0;
-      case 'section1': return 25;
-      case 'section2': return 60;
-      case 'submitting': return 100;
-      default: return 0;
-    }
-  };
-
-  const getTotalQuestions = () => {
-    return 73; // 56 Section 1 + 17 Section 2
-  };
-
-  const getCurrentQuestion = () => {
-    switch (currentStep) {
-      case 'userInfo': return 0;
-      case 'section1': return 1;
-      case 'section2': return 57; // After 56 Section 1 questions
-      case 'submitting': return 73;
-      default: return 0;
-    }
-  };
 
   // Show skeleton screen until initialized
   if (!isInitialized) {
@@ -285,13 +218,6 @@ export default function QuizPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-purple-50">
-      {/* Resume Quiz Banner */}
-      {showResumesBanner && (
-        <ResumeQuizBanner 
-          onResume={handleResumeQuiz}
-          onStartFresh={handleStartFresh}
-        />
-      )}
 
       {/* Auto-save Indicator */}
       <AutoSaveIndicator />
@@ -305,20 +231,6 @@ export default function QuizPage() {
           <p className="text-gray-600">Discover your unique style identity</p>
         </div>
 
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <ProgressBar 
-            currentStep={getCurrentQuestion()}
-            totalSteps={getTotalQuestions()}
-            percentage={getProgressPercentage()}
-            stepName={
-              currentStep === 'userInfo' ? 'Getting Started' :
-              currentStep === 'section1' ? 'Section 1: Style Preferences' :
-              currentStep === 'section2' ? 'Section 2: Lifestyle Choices' :
-              'Processing Results...'
-            }
-          />
-        </div>
 
         {/* Error Display */}
         {error && (

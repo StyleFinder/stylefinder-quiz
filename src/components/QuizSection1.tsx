@@ -38,20 +38,20 @@ export default function QuizSection1({ onComplete, onBack }: QuizSection1Props) 
   const groups = Object.keys(SECTION1_QUESTIONS) as (keyof typeof SECTION1_QUESTIONS)[];
   const currentGroup = groups[currentGroupIndex];
   const currentQuestions = SECTION1_QUESTIONS[currentGroup];
-  const currentResponses = responses[currentGroup];
+  const currentResponses = responses[currentGroup as keyof Section1Response];
 
   // Check if all questions in current group are answered
-  const isCurrentGroupComplete = currentResponses.every(response => response !== null);
+  const isCurrentGroupComplete = currentResponses.every((response: boolean | null) => response !== null);
   
   // Check if all groups are complete
-  const isAllComplete = Object.values(responses).every(groupResponses => 
-    groupResponses.every(response => response !== null)
+  const isAllComplete = Object.values(responses).every((groupResponses: (boolean | null)[]) => 
+    groupResponses.every((response: boolean | null) => response !== null)
   );
 
   const handleResponseChange = (questionIndex: number, value: boolean) => {
     setResponses(prev => ({
       ...prev,
-      [currentGroup]: prev[currentGroup].map((response, idx) => 
+      [currentGroup]: (prev[currentGroup as keyof Section1Response] as (boolean | null)[]).map((response, idx) => 
         idx === questionIndex ? value : response
       )
     }));
@@ -65,12 +65,16 @@ export default function QuizSection1({ onComplete, onBack }: QuizSection1Props) 
         setCurrentGroupIndex(currentGroupIndex + 1);
       } else if (isAllComplete) {
         // Convert null responses to false (shouldn't happen with validation, but safety check)
-        const cleanedResponses: Section1Response = Object.keys(responses).reduce((acc, key) => {
-          acc[key as keyof Section1Response] = responses[key as keyof Section1Response].map(
-            response => response === null ? false : response
-          );
-          return acc;
-        }, {} as Section1Response);
+        const cleanedResponses: Section1Response = {
+          groupA: responses.groupA.map(response => response === null ? false : response),
+          groupB: responses.groupB.map(response => response === null ? false : response),
+          groupC: responses.groupC.map(response => response === null ? false : response),
+          groupD: responses.groupD.map(response => response === null ? false : response),
+          groupE: responses.groupE.map(response => response === null ? false : response),
+          groupF: responses.groupF.map(response => response === null ? false : response),
+          groupG: responses.groupG.map(response => response === null ? false : response),
+          groupH: responses.groupH.map(response => response === null ? false : response),
+        };
         
         onComplete(cleanedResponses);
       }
@@ -92,8 +96,8 @@ export default function QuizSection1({ onComplete, onBack }: QuizSection1Props) 
   }, [currentGroupIndex]);
 
   const getProgressPercentage = () => {
-    const completedGroups = Object.values(responses).filter(groupResponses => 
-      groupResponses.every(response => response !== null)
+    const completedGroups = Object.values(responses).filter((groupResponses: (boolean | null)[]) => 
+      groupResponses.every((response: boolean | null) => response !== null)
     ).length;
     return (completedGroups / groups.length) * 100;
   };
@@ -111,7 +115,7 @@ export default function QuizSection1({ onComplete, onBack }: QuizSection1Props) 
           </div>
           
           <div className="flex items-center justify-between text-sm mb-2">
-            <span>{groupLabels[currentGroup]}</span>
+            <span>{groupLabels[currentGroup as keyof typeof groupLabels]}</span>
             <span>{Math.round(getProgressPercentage())}% Complete</span>
           </div>
           
@@ -218,7 +222,7 @@ export default function QuizSection1({ onComplete, onBack }: QuizSection1Props) 
           </button>
 
           <div className="text-sm text-gray-500">
-            {currentResponses.filter(r => r !== null).length} of {currentQuestions.length} answered
+            {currentResponses.filter((r: boolean | null) => r !== null).length} of {currentQuestions.length} answered
           </div>
 
           <ButtonLoading

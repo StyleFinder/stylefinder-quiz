@@ -135,9 +135,9 @@ export class QuizStorage {
       // Validate data structure and version
       if (!this.isValidStoredData(data)) {
         logger.warn('storage', 'Invalid stored quiz data found, clearing', {
-          version: data?.version,
-          hasUserData: !!data?.userData,
-          hasProgress: !!data?.quizProgress
+          version: (data as any)?.version,
+          hasUserData: !!(data as any)?.userData,
+          hasProgress: !!(data as any)?.quizProgress
         });
         this.clearQuizData();
         return null;

@@ -248,10 +248,10 @@ export async function sendEmail(emailData: EmailTemplate): Promise<boolean> {
       setTimeout(() => reject(new Error('Email sending timeout')), 30000)
     );
     
-    const info = await Promise.race([sendPromise, sendTimeoutPromise]);
+    const info = await Promise.race([sendPromise, sendTimeoutPromise]) as any;
     
     console.log('Email sent successfully:', {
-      messageId: info.messageId,
+      messageId: info?.messageId || 'unknown',
       recipient: emailData.to,
       timestamp: new Date().toISOString()
     });

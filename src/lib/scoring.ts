@@ -79,7 +79,7 @@ function determineStyleProfile(scores: Record<string, number>): StyleResult {
   // Find secondary from opposite category
   const oppositeCategory = isYang ? YIN_STYLES : YANG_STYLES;
   const secondaryEntry = sortedEntries.find(([id]) => 
-    oppositeCategory.includes(id as any)
+    (oppositeCategory as unknown as string[]).includes(id)
   );
   
   if (!secondaryEntry) {
@@ -184,7 +184,7 @@ export function validateQuizSubmission(submission: Partial<QuizSubmission>): str
     // Check each group has 7 responses
     const groups = ['groupA', 'groupB', 'groupC', 'groupD', 'groupE', 'groupF', 'groupG', 'groupH'];
     groups.forEach(group => {
-      const responses = submission.section1[group as keyof typeof submission.section1];
+      const responses = submission.section1?.[group as keyof typeof submission.section1];
       if (!responses || responses.length !== 7) {
         errors.push(`${group} must have exactly 7 responses`);
       }
