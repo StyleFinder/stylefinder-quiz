@@ -31,10 +31,8 @@ export default function HomePage() {
                 <span className="font-medium">Assessment Details</span>
               </div>
               <ul className="space-y-1 ml-7">
-                <li>• 73 questions in two sections</li>
                 <li>• Approximately 10-15 minutes to complete</li>
                 <li>• Results sent to your personal style coach</li>
-                <li>• Immediate access to your primary style profile</li>
               </ul>
             </div>
           </div>
