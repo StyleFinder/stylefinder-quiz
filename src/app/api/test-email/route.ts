@@ -30,8 +30,8 @@ export async function GET(request: NextRequest) {
     // Create transporter
     const transporter = nodemailer.createTransport({
       host: smtpHost,
-      port: parseInt(smtpPort),
-      secure: parseInt(smtpPort) === 465, // true for 465, false for other ports
+      port: parseInt(smtpPort || '587'),
+      secure: parseInt(smtpPort || '587') === 465, // true for 465, false for other ports
       auth: {
         user: smtpUser,
         pass: smtpPass,
