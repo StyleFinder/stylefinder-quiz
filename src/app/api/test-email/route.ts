@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Create transporter
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: smtpHost,
       port: parseInt(smtpPort),
       secure: parseInt(smtpPort) === 465, // true for 465, false for other ports
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
 
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: smtpHost,
       port: parseInt(smtpPort || '587'),
       secure: parseInt(smtpPort || '587') === 465,
