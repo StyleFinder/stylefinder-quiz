@@ -157,7 +157,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">StyleFinder Quiz Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold text-black">StyleFinder Quiz Admin Dashboard</h1>
             <button
               onClick={exportToCSV}
               className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
@@ -174,7 +174,7 @@ export default function AdminDashboard() {
               value={searchEmail}
               onChange={(e) => setSearchEmail(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              className="flex-1 px-4 py-2 border rounded"
+              className="flex-1 px-4 py-2 border rounded text-black placeholder:text-black"
             />
             <button
               onClick={handleSearch}
