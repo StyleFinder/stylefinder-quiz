@@ -3,6 +3,7 @@ import { QuizSubmission } from '@/lib/types';
 import { calculateStyleScores, validateQuizSubmission } from '@/lib/scoring';
 import { generateCoachEmail, sendEmail, validateEmailConfig } from '@/lib/email';
 import { logger, trackQuizSubmission, trackEmailEvent, trackAPIPerformance, initializeMonitoring } from '@/lib/logger';
+import { saveQuizSubmission, updateEmailStatus, queueEmail, isDatabaseConfigured } from '@/lib/supabase';
 
 // Initialize monitoring on first API call
 let monitoringInitialized = false;
@@ -64,9 +65,35 @@ export async function POST(request: NextRequest) {
     // Calculate style scores
     logger.debug('scoring', 'Calculating style scores', { userName: submission.userName }, submission.userEmail);
     const results = calculateStyleScores(submission);
-    
+
     // Track successful quiz completion
     trackQuizSubmission(submission, results);
+
+    // Save to database if configured
+    let submissionId: string | undefined;
+    if (await isDatabaseConfigured()) {
+      logger.info('database', 'Saving quiz submission to database', {
+        userName: submission.userName
+      }, submission.userEmail);
+
+      const saveResult = await saveQuizSubmission(submission, results, request);
+      if (saveResult.success && saveResult.submissionId) {
+        submissionId = saveResult.submissionId;
+        logger.info('database', 'Quiz submission saved successfully', {
+          submissionId,
+          userName: submission.userName
+        }, submission.userEmail);
+      } else {
+        logger.error('database', 'Failed to save quiz submission', {
+          error: saveResult.error,
+          userName: submission.userName
+        }, submission.userEmail);
+      }
+    } else {
+      logger.warn('database', 'Database not configured - skipping persistence', {
+        userName: submission.userName
+      }, submission.userEmail);
+    }
 
     // Generate and send coach email
     try {
@@ -82,12 +109,27 @@ export async function POST(request: NextRequest) {
           userName: submission.userName,
           primaryStyle: results.primary.name
         }, submission.userEmail);
+
+        // Update database with email success
+        if (submissionId) {
+          await updateEmailStatus(submissionId, true);
+        }
       } else {
         trackEmailEvent('failed', emailData.to);
-        logger.warn('email', 'Failed to send coach email - continuing with user response', {
+        logger.warn('email', 'Failed to send coach email - queuing for retry', {
           recipient: emailData.to,
           userName: submission.userName
         }, submission.userEmail);
+
+        // Queue email for retry if database is configured
+        if (submissionId) {
+          await updateEmailStatus(submissionId, false, 'Initial send failed');
+          await queueEmail(submissionId, emailData.to, emailData);
+          logger.info('email', 'Email queued for retry', {
+            submissionId,
+            recipient: emailData.to
+          }, submission.userEmail);
+        }
       }
     } catch (emailError: any) {
       trackEmailEvent('failed', process.env.COACH_EMAIL || 'coach@example.com', emailError);
