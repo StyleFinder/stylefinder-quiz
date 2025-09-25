@@ -25,8 +25,8 @@ export interface DbQuizSubmission {
   user_name: string;
   user_email: string;
   submitted_at?: string;
-  section1_responses: Record<string, boolean[]>;
-  section2_responses: { answers: string[] };
+  section1_responses: any; // JSONB type in database can store any structure
+  section2_responses: any; // JSONB type in database can store any structure
   scores: Record<string, number>;
   primary_style: string;
   primary_score: number;
