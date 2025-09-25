@@ -145,7 +145,7 @@ export default function AdminDashboard() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Authenticating...</h1>
-          <p className="text-gray-600">Please enter your admin token</p>
+          <p className="text-black">Please enter your admin token</p>
         </div>
       </div>
     );
@@ -195,47 +195,47 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-lg shadow overflow-hidden">
           {loading ? (
             <div className="p-8 text-center">
-              <p className="text-gray-600">Loading submissions...</p>
+              <p className="text-black">Loading submissions...</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-100 border-b">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Date</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Name</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Email</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Primary</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Secondary</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Supporting</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Email</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Actions</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Date</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Name</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Email</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Primary</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Secondary</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Supporting</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Email</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-black uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {submissions.map((submission) => (
                     <tr key={submission.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm">
+                      <td className="px-4 py-3 text-sm text-black">
                         {new Date(submission.submitted_at || '').toLocaleString()}
                       </td>
-                      <td className="px-4 py-3 text-sm font-medium">{submission.user_name}</td>
-                      <td className="px-4 py-3 text-sm">{submission.user_email}</td>
-                      <td className="px-4 py-3 text-sm">
+                      <td className="px-4 py-3 text-sm font-medium text-black">{submission.user_name}</td>
+                      <td className="px-4 py-3 text-sm text-black">{submission.user_email}</td>
+                      <td className="px-4 py-3 text-sm text-black">
                         <div>
                           <span className="font-medium">{submission.primary_style}</span>
-                          <span className="text-gray-500 ml-1">({submission.primary_score})</span>
+                          <span className="text-black ml-1">({submission.primary_score})</span>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm">
+                      <td className="px-4 py-3 text-sm text-black">
                         <div>
                           <span>{submission.secondary_style}</span>
-                          <span className="text-gray-500 ml-1">({submission.secondary_score})</span>
+                          <span className="text-black ml-1">({submission.secondary_score})</span>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm">
+                      <td className="px-4 py-3 text-sm text-black">
                         <div>
                           <span>{submission.supporting_style}</span>
-                          <span className="text-gray-500 ml-1">({submission.supporting_score})</span>
+                          <span className="text-black ml-1">({submission.supporting_score})</span>
                         </div>
                       </td>
                       <td className="px-4 py-3 text-sm">
@@ -279,7 +279,7 @@ export default function AdminDashboard() {
 
           {submissions.length === 0 && !loading && (
             <div className="p-8 text-center">
-              <p className="text-gray-600">No submissions found</p>
+              <p className="text-black">No submissions found</p>
             </div>
           )}
         </div>
@@ -292,7 +292,7 @@ export default function AdminDashboard() {
                 <h2 className="text-2xl font-bold">Submission Details</h2>
                 <button
                   onClick={() => setShowDetails(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-black hover:text-gray-700"
                 >
                   ✕
                 </button>
@@ -300,24 +300,24 @@ export default function AdminDashboard() {
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold mb-2">User Information</h3>
-                  <p><strong>Name:</strong> {selectedSubmission.user_name}</p>
-                  <p><strong>Email:</strong> {selectedSubmission.user_email}</p>
-                  <p><strong>Submitted:</strong> {new Date(selectedSubmission.submitted_at || '').toLocaleString()}</p>
+                  <h3 className="font-semibold mb-2 text-black">User Information</h3>
+                  <p className="text-black"><strong>Name:</strong> {selectedSubmission.user_name}</p>
+                  <p className="text-black"><strong>Email:</strong> {selectedSubmission.user_email}</p>
+                  <p className="text-black"><strong>Submitted:</strong> {new Date(selectedSubmission.submitted_at || '').toLocaleString()}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Style Results</h3>
-                  <p><strong>Primary:</strong> {selectedSubmission.primary_style} (Score: {selectedSubmission.primary_score})</p>
-                  <p><strong>Secondary:</strong> {selectedSubmission.secondary_style} (Score: {selectedSubmission.secondary_score})</p>
-                  <p><strong>Supporting:</strong> {selectedSubmission.supporting_style} (Score: {selectedSubmission.supporting_score})</p>
+                  <h3 className="font-semibold mb-2 text-black">Style Results</h3>
+                  <p className="text-black"><strong>Primary:</strong> {selectedSubmission.primary_style} (Score: {selectedSubmission.primary_score})</p>
+                  <p className="text-black"><strong>Secondary:</strong> {selectedSubmission.secondary_style} (Score: {selectedSubmission.secondary_score})</p>
+                  <p className="text-black"><strong>Supporting:</strong> {selectedSubmission.supporting_style} (Score: {selectedSubmission.supporting_score})</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">All Scores</h3>
+                  <h3 className="font-semibold mb-2 text-black">All Scores</h3>
                   <div className="grid grid-cols-4 gap-2">
                     {Object.entries(selectedSubmission.scores).map(([style, score]) => (
-                      <div key={style} className="bg-gray-100 p-2 rounded">
+                      <div key={style} className="bg-gray-100 p-2 rounded text-black">
                         <span className="font-medium">{style}:</span> {score}
                       </div>
                     ))}
@@ -325,10 +325,10 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Email Status</h3>
-                  <p><strong>Sent:</strong> {selectedSubmission.email_sent ? 'Yes' : 'No'}</p>
+                  <h3 className="font-semibold mb-2 text-black">Email Status</h3>
+                  <p className="text-black"><strong>Sent:</strong> {selectedSubmission.email_sent ? 'Yes' : 'No'}</p>
                   {selectedSubmission.email_sent_at && (
-                    <p><strong>Sent At:</strong> {new Date(selectedSubmission.email_sent_at).toLocaleString()}</p>
+                    <p className="text-black"><strong>Sent At:</strong> {new Date(selectedSubmission.email_sent_at).toLocaleString()}</p>
                   )}
                   {selectedSubmission.email_error && (
                     <p className="text-red-600"><strong>Error:</strong> {selectedSubmission.email_error}</p>
